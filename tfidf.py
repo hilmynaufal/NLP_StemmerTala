@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import pandas as pd
 import math
+import re
     
 
 def main(): 
@@ -17,13 +18,13 @@ def main():
     # documents = ["Vladimir Putin adalah penjahat perang utama abad ke-21", "Dugaan kejahatan perang kepada 500 pemimpin Rusia itu ditujukkan atas ribuan kejahatan perang targetnya termasuk Presiden Vladimir Putin"]
 
     # documents = ["Elearning PTIIK atas jam malam buka", "UB lahan parkir layak jalan ramai buka umum jalan tol brawijaya", "Kelas arsitektur organisasi komputer penuh buka kelas rugi saya ambil sks sks penuh", "Informasi tata daftar ulang mahasiswa PTIIK tanggal terakhir syarat nyerah berkas daftar ulang mahasiswa bawa syarat daftar ulang"]
-
+    
     #membuat token
     tersplit = []
     d = list()
     d_index = list(list())
     for document in documents:
-        tersplit.append(document.split(" "))
+        tersplit.append(" ".join(re.findall("[a-zA-Z]+", document)).split(" "))
 
     #to lowercase
     temp_lower = list()
