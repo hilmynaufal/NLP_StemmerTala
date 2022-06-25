@@ -6,7 +6,8 @@ import re
     
 
 def main(): 
-
+    stopWords = np.loadtxt('stopword.txt',dtype="U")
+    cStop=len(stopWords)
     print("Jumlah dokumen: ")
     jml = input()
     documents = list()
@@ -38,7 +39,7 @@ def main():
     
     for x in tersplit:
         for y in x:
-            if y not in d:
+            if y not in d and y not in stopWords:
                 d.append(y)
 
    
