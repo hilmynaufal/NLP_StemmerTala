@@ -4,8 +4,26 @@ import pandas as pd
 import math
 import re
     
-
-def main(): 
+def delPrefix(str,prx):
+    if str.startswith(prx):
+        rootWord= str.removeprefix(prx)
+        # print(rootWord)
+        return rootWord
+    else:
+        # print("gagal remove prefix")
+        return str
+       
+def delSuffix(str,sfx):
+    if str.endswith(sfx):
+        rootWord= str.removesuffix(sfx)
+        return rootWord
+    else:
+        # print('gagal remove suffix')
+        return str
+   
+def main():
+    awalan2 =  np.loadtxt('awalan2.txt',dtype="U")
+    akhiran = np.loadtxt('akhiran.txt',dtype="U")
     stopWords = np.loadtxt('stopword.txt',dtype="U")
     cStop=len(stopWords)
     # print("Jumlah dokumen: ")
@@ -18,9 +36,6 @@ def main():
     novel =' '.join(text_file.readlines())
     documents=[novel]
 
-    # documents = ["Vladimir Putin adalah penjahat perang utama abad ke-21", "Dugaan kejahatan perang kepada 500 pemimpin Rusia itu ditujukkan atas ribuan kejahatan perang targetnya termasuk Presiden Vladimir Putin"]
-
-    # documents = ["Elearning PTIIK atas jam malam buka", "UB lahan parkir layak jalan ramai buka umum jalan tol brawijaya", "Kelas arsitektur organisasi komputer penuh buka kelas rugi saya ambil sks sks penuh", "Informasi tata daftar ulang mahasiswa PTIIK tanggal terakhir syarat nyerah berkas daftar ulang mahasiswa bawa syarat daftar ulang"]
     
     #membuat token
     tersplit = []
@@ -51,11 +66,23 @@ def main():
             d_index_temp.append(x.count(y))
         d_index.append(d_index_temp)
 
+    # tahap 4 algoritma Tala 
+    for i in range(len(akhiran)):
+       tesString = "persaudaraan"
+       rootword=delSuffix(tesString, akhiran[i])
+       if tesString is not rootword:
+         for j in range(len(awalan2)):
+            rootword=delPrefix(rootword, awalan2[j])
+         break
+         
+
+    print(rootword)
+    
     #buat column
     dic = dict()
-    dic.update({'Kata':d})
+    dic.update({'Token':d})
     header = list()
-    header.append("Kata")
+    header.append("Token")
     for idx, val in enumerate(d_index):
         # s = 'D' + str(idx+1)
         s = 'Frekuensi kata' 
@@ -63,6 +90,8 @@ def main():
     for idx, val in enumerate(d_index):
         dic.update({header[idx+1]:d_index[idx]})
 
+    
+    
     # #hitung tf
     # tf = list()
     # n = list()
@@ -112,5 +141,6 @@ def main():
     data = data.round(decimals=3)
     data.to_excel('test.xlsx', sheet_name="sheet1", index=False)
     print("ekstrak token berhasil, silahkan buka file test.xlsx")
+    
 
 main()
