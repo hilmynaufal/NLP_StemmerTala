@@ -74,9 +74,20 @@ def main():
          for j in range(len(awalan2)):
             rootword=delPrefix(rootword, awalan2[j])
          break
-         
-
-    print(rootword)
+    
+    # tahap 5 algoritma Tala     
+    tesString = "persaudaraan"       
+    for i in range(len(awalan2)):
+       rootword=delPrefix(tesString, awalan2[i])
+       if tesString is not rootword:
+        print(rootword)
+        break
+    tesString = rootword
+    for i in range(len(akhiran)):
+       rootword=delSuffix(rootword, akhiran[i])
+       if tesString is not rootword:
+        print(rootword)
+        break
     
     #buat column
     dic = dict()
