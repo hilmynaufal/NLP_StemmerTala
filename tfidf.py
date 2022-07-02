@@ -100,7 +100,6 @@ def main():
         # tahap 3 algoritma Tala      
         for c in range(len(awalan1)):
             rootword=delPrefix(tesString, awalan1[c])
-            print(c)
             if tesString is not rootword:
                 tesString=rootword
                 # tahap 4 algoritma Tala 

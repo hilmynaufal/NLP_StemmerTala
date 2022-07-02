@@ -27,6 +27,7 @@ pemu,pu
 peme,pe
 pemo,po
 pem
+pe
 di
 ter
 ke
