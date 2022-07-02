@@ -20,6 +20,22 @@ def delSuffix(str,sfx):
     else:
         # print('gagal remove suffix')
         return str
+
+def delParticle(str,ptl):
+    if ptl.endswith(ptl):
+        rootWord= str.removesurffix(ptl)
+        return rootWord
+    else:
+        # print('gagal remove particle')
+        return str
+
+def delPossivePronoun (str, pp):
+    if pp.endswith(pp):
+        rootWord= str.removesurffix(pp)
+        return rootWord
+    else:
+        # print('gagal remove particle')
+        return str
    
 def main():
     awalan2 =  np.loadtxt('awalan2.txt',dtype="U")
@@ -66,6 +82,29 @@ def main():
             d_index_temp.append(x.count(y))
         d_index.append(d_index_temp)
 
+
+    # tahap 1 algoritma Tala
+    tesString = "persaudaraan"       
+    for i in range(len(partikel)):
+       rootword=delParticle(tesString, partikel[i])
+       if tesString is not rootword:
+        print(rootword)
+        break
+    tesString = rootword
+    # tahap 2 algoritma Tala
+    tesString = "persaudaraan"       
+    for i in range(len(kepunyaan)):
+       rootword=delPossivePronoun(tesString, kepunyaan[i])
+       if tesString is not rootword:
+        print(rootword)
+        break
+    # tahap 3 algoritma Tala
+    tesString = "persaudaraan"       
+    for i in range(len(awalan1)):
+       rootword=delPrefix(tesString, awalan1[i])
+       if tesString is not rootword:
+        print(rootword)
+        break
     # tahap 4 algoritma Tala 
     for i in range(len(akhiran)):
        tesString = "persaudaraan"
