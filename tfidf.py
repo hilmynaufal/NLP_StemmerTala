@@ -126,7 +126,7 @@ def main():
                     if tesString is not rootword:
                         break
                 tesString=rootword
-                break
+                
         stem.append(tesString)
     
    
