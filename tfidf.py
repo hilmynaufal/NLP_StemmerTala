@@ -82,6 +82,12 @@ def main():
         d_index.append(d_index_temp)
 
     stem = list()
+    t_partikel = list()
+    t_kepunyaan = list()
+    t_awalan1 = list()
+    t_awalan2 = list()
+    t_akhiran = list()
+    akhiran_temp = ""
     for j in d:
     # tahap 1 algoritma Tala
         tesString = j
@@ -90,42 +96,55 @@ def main():
             if tesString is not rootword:
                 break
         tesString=rootword
-        
+        t_partikel.append(tesString)
         # tahap 2 algoritma Tala     
         for i in range(len(kepunyaan)):
             rootword=delSuffix(tesString, kepunyaan[i])
             if tesString is not rootword:
                 break
         tesString=rootword
+        t_kepunyaan.append(tesString)
         # tahap 3 algoritma Tala      
         for c in range(len(awalan1)):
             rootword=delPrefix(tesString, awalan1[c])
             if tesString is not rootword:
-                tesString=rootword
-                # tahap 4 algoritma Tala 
-                for i in range(len(akhiran)):  
-                    rootword=delSuffix(tesString, akhiran[i])
-                    if tesString is not rootword:
-                        for j in range(len(awalan2)):
-                            rootword=delPrefix(rootword, awalan2[j])
-                        break
-                tesString=rootword
                 break
-            else:
-                tesString=rootword
-                # tahap 5 algoritma Tala        
-                for i in range(len(awalan2)):
-                    rootword=delPrefix(tesString, awalan2[i])
-                    if tesString is not rootword:
-                        # print(rootword)
-                        break
-                tesString = rootword
-                for i in range(len(akhiran)):
-                    rootword=delSuffix(rootword, akhiran[i])
-                    if tesString is not rootword:
-                        break
-                tesString=rootword
-                
+        if tesString is not rootword:
+            t_awalan1.append(rootword)
+            tesString=rootword
+            
+            # tahap 4 algoritma Tala 
+            for i in range(len(akhiran)):  
+                rootword=delSuffix(tesString, akhiran[i])
+                if tesString is not rootword:
+                    t_akhiran.append(rootword)
+                    for j in range(len(awalan2)):
+                        rootword=delPrefix(rootword, awalan2[j])
+                    break
+                else:
+                    akhiran_temp = rootword
+                    
+            if tesString is rootword:
+                t_akhiran.append(akhiran_temp)
+            tesString=rootword
+            t_awalan2.append(tesString)
+        else:
+            t_awalan1.append(rootword)
+            tesString=rootword
+            # tahap 5 algoritma Tala        
+            for i in range(len(awalan2)):
+                rootword=delPrefix(tesString, awalan2[i])
+                if tesString is not rootword:
+                    # print(rootword)
+                    break
+            tesString = rootword
+            t_awalan2.append(tesString)
+            for i in range(len(akhiran)):
+                rootword=delSuffix(rootword, akhiran[i])
+                if tesString is not rootword:
+                    break
+            tesString=rootword
+            t_akhiran.append(tesString)
         stem.append(tesString)
     
    
@@ -139,12 +158,27 @@ def main():
         s = 'Frekuensi kata' 
         z = 'Hasil Stemming'
         header.append(s)
+        header.append("Tanpa partikel")
+        header.append("Tanpa kepunyaan")
+        header.append("Tanpa awalan1")
+        header.append("Tanpa awalan2")
+        header.append("Tanpa akhiran")
         header.append(z)
         
     for idx, val in enumerate(d_index):
         dic.update({header[idx+1]:d_index[idx]})
+    dic.update({"Tanpa partikel":t_partikel})
+    dic.update({"Tanpa kepunyaan":t_kepunyaan})
+    dic.update({"Tanpa awalan1":t_awalan1})
+    dic.update({"Tanpa awalan2":t_awalan2})
+    dic.update({"Tanpa akhiran":t_akhiran})
     dic.update({'Hasil Stemming':stem})
     
+    print(len(t_partikel))
+    print(len(t_kepunyaan))
+    print(len(t_awalan1))
+    print(len(t_awalan2))
+    print(len(t_akhiran))
     
     # #hitung tf
     # tf = list()
@@ -192,7 +226,7 @@ def main():
 
     #export
     data = pd.DataFrame.from_dict(dic)
-    data = data.round(decimals=3)
+    
     data.to_excel('StemmingTala.xlsx', sheet_name="sheet1", index=False)
     print("ekstrak token berhasil, silahkan buka file StemmingTala.xlsx")
     
